@@ -32,23 +32,21 @@ class Polymer:
     return el_counts
 
   def grow(self):
-    pair_copy = self.pairs.copy()
-    pair_names = [k for k, v in pair_copy.items()]
-    for pair in pair_names:
+    pairs_copy = self.pairs.copy()
+    for pair in pairs_copy.keys():
       if pair in self.rules.keys():
         e1 = pair[0]
         e2 = pair[1]
         e3 = self.rules[pair]
         new_pair_1 = e1+e3
         new_pair_2 = e3+e2
-        self.update_dict(self.pairs, new_pair_1, pair_copy[pair])
-        self.update_dict(self.pairs, new_pair_2, pair_copy[pair])
-        self.update_dict(self.el_counts, e3, pair_copy[pair])
-        self.pairs[pair] -= pair_copy[pair]
-        pair_copy.pop(pair)
+        self.update_dict(self.pairs, new_pair_1, pairs_copy[pair])
+        self.update_dict(self.pairs, new_pair_2, pairs_copy[pair])
+        self.update_dict(self.el_counts, e3, pairs_copy[pair])
+        self.pairs[pair] -= pairs_copy[pair]
 
 
-data = parse_file("./example.txt")
+data = parse_file("./input.txt")
 template = data[0]
 rules = {r[:2]: r[-1] for r in data[2:]}
 
