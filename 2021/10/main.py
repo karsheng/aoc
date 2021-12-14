@@ -4,7 +4,7 @@ def parseFile(path):
         return content.splitlines()
 
 
-data = parseFile("input.txt")    
+data = parseFile("example.txt")    
 
 brackets = {
     "[" : "]",
@@ -13,8 +13,6 @@ brackets = {
     "{" : "}"
 }
 
-brackets_reversed = { v: k for k, v in brackets.items()}
-
 def check_syntax(line):
     stack = []
     for b in line:
@@ -22,7 +20,7 @@ def check_syntax(line):
             stack.append(b)
             continue
         ob = stack.pop()
-        if ob != brackets_reversed[b]:
+        if b != brackets[ob]:
             return b, stack
 
     return None, stack
