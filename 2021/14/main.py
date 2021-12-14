@@ -4,9 +4,9 @@ def parse_file(path):
         return content.splitlines()
 
 class Polymer:
-  def __init__(self, template, formula):
+  def __init__(self, template, rules):
     self.template = template
-    self.formula = formula
+    self.rules = rules
     self.pairs = self.init_pairs()
     self.el_counts = self.init_el_counts()
   
@@ -35,10 +35,10 @@ class Polymer:
     pair_copy = self.pairs.copy()
     pair_names = [k for k, v in pair_copy.items()]
     for pair in pair_names:
-      if pair in self.formula.keys():
+      if pair in self.rules.keys():
         e1 = pair[0]
         e2 = pair[1]
-        e3 = self.formula[pair]
+        e3 = self.rules[pair]
         new_pair_1 = e1+e3
         new_pair_2 = e3+e2
         self.update_dict(self.pairs, new_pair_1, pair_copy[pair])
@@ -48,9 +48,9 @@ class Polymer:
         pair_copy.pop(pair)
 
 
-data = parse_file("./input.txt")
+data = parse_file("./example.txt")
 template = data[0]
-formula = {r[:2]: r[-1] for r in data[2:]}
+rules = {r[:2]: r[-1] for r in data[2:]}
 
 def solve(polymer, steps):
   for _ in range(steps):
@@ -58,5 +58,5 @@ def solve(polymer, steps):
   return max(polymer.el_counts.values()) - min(polymer.el_counts.values())
 
 
-print("q1", solve(Polymer(template, formula), 10))
-print("q2", solve(Polymer(template, formula), 40))
+print("q1", solve(Polymer(template, rules), 10))
+print("q2", solve(Polymer(template, rules), 40))
